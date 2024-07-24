@@ -1,0 +1,13 @@
+.hero {
+  width: 100vw;
+  height: 300px;
+
+  &__image {
+    background-image: url('../../assets/hero-image-wr.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

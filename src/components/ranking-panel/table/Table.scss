@@ -1,0 +1,36 @@
+.countries-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: $border-radius;
+  overflow: hidden;
+  text-align: left;
+}
+
+.countries-table__head {
+  font-size: .8rem;
+  color: $color-heading;
+  border-bottom: 1px solid $color-heading;
+}
+
+.countries-table__row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countries-table__img {
+  width: 5.6rem;
+  height: 2.8rem;
+}
+
+.countries-table__header {
+  flex: 1;
+  padding: 12px 0;
+}
+
+.countries-table__cell {
+  flex: 1;
+  padding: 12px 0;
+}

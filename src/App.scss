@@ -1,0 +1,13 @@
+$color-page-container: #1B1D1F;
+$padding: 2rem;
+
+.container {
+  background-color: $color-page-container;
+  color: white;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding-right: $padding;
+  padding-left: $padding;
+  padding-bottom: $padding;
+}
