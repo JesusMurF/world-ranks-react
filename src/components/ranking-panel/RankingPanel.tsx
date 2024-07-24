@@ -11,7 +11,7 @@ import './RankingPanel.scss'
 export const RankingPanel = (): React.ReactElement => {
   const [ allCountries, setAllCountries ] = useState<Country[]>([]);
   const [ countries, setCountries ] = useState<Country[]>([]);
-  const [ query, setQuery ] = useState('');
+  const [ query, setQuery ] = useState<string>('');
 
   useEffect(() => {
     const instance = new CountriesService();
