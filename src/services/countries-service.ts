@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 import { Country, GenericObject, Query } from "../components/interfaces";
 
 class CountriesService {
