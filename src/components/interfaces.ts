@@ -6,11 +6,6 @@ export interface Query {
   query?: string;
 }
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-export interface GenericObject {
-  [key: string]: any;
-}
-
 /**
  * Represents the state of tags.
  */
