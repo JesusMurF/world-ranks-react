@@ -15,3 +15,21 @@ $color-checkbox: $_color-blue-moon-ritual;
 
 // Utilities
 $border-radius: .5rem;
+
+// Mixins
+@mixin panel($template-areas, $template-columns) {
+  display: grid;
+  grid-template-areas: $template-areas;
+  grid-template-rows: 3em;
+  grid-template-columns: $template-columns;
+  grid-row-gap: 2em;
+  max-width: 1216px;
+  min-width: 960px;
+  background-color: $color-panel;
+  border-radius: $border-radius;
+  border: 1px solid $color-font;
+  margin-top: -3rem;
+  height: fit-content;
+  min-height: 100vh;
+  padding: 2rem;
+}
