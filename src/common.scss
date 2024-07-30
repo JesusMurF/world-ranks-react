@@ -21,7 +21,6 @@ $border-radius: .5rem;
 @mixin panel($template-areas, $template-columns, $min-width, $padding: 2rem) {
   display: grid;
   grid-template-areas: $template-areas;
-  grid-template-rows: 3em;
   grid-template-columns: $template-columns;
   grid-row-gap: 2em;
   max-width: 1216px;
@@ -30,7 +29,6 @@ $border-radius: .5rem;
   border-radius: $border-radius;
   border: 1px solid $color-panel-border;
   margin-top: -3rem;
-  height: fit-content;
-  min-height: 100vh;
+  height: auto;
   padding: $padding;
 }

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Country } from '../../interfaces';
 import './Table.scss'
 
@@ -7,6 +8,7 @@ type TableProps = {
 
 export const Table = (props: TableProps): React.ReactElement  => {
   const { countries } = props;
+  const navigate = useNavigate()
 
   /**
    * Inserts commas into a number.
@@ -30,7 +32,7 @@ export const Table = (props: TableProps): React.ReactElement  => {
       </thead>
       <tbody>
         {countries.map((country: Country) => (
-          <tr key={country.id} className='countries-table__row'>
+          <tr key={country.id} className='countries-table__row' onClick={() => navigate(`/country/${country.name.common.toLowerCase()}`, {state: country.name})}>
             <td className='countries-table__cell'><img className='countries-table__img' src={country.flags.png} alt={country.name.common} /></td>
             <td className='countries-table__cell'>{country.name.common}</td>
             <td className='countries-table__cell' data-testid="populationCell">{insertCommas(country.population)}</td>

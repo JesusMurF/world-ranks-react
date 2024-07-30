@@ -44,6 +44,8 @@ export interface Country {
   population: number;
   independent: boolean;
   unMember: boolean;
+  capital: string[];
+  languages: Record<string, string>;
 }
 
 /**

@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <RankingPanel />
   },
   {
-    path: '/country/:id',
+    path: '/country/:name',
     element: <Country />
   }
 ])
