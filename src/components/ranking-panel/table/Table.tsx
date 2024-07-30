@@ -29,7 +29,7 @@ export const Table = (props: TableProps): React.ReactElement  => {
         </tr>
       </thead>
       <tbody>
-        {countries.map((country: Country) => (
+        {countries.length ? (countries || []).map((country: Country) => (
           <tr key={country.id} className='countries-table__row'>
             <td className='countries-table__cell'><img className='countries-table__img' src={country.flags.png} alt={country.name.common} /></td>
             <td className='countries-table__cell'>{country.name.common}</td>
@@ -37,7 +37,9 @@ export const Table = (props: TableProps): React.ReactElement  => {
             <td className='countries-table__cell' data-testid="areaCell">{insertCommas(country.area)}</td>
             <td className='countries-table__cell'>{country.region}</td>
           </tr>
-        ))}
+        )) : <tr>
+          <td className='countries-table__cell'>No se han encontrado resultados</td>
+          </tr>}
       </tbody>
     </table>
   )
