@@ -98,7 +98,7 @@ export const RankingPanel = (): React.ReactElement => {
         <Sidebar handleSortBy={handleSortBy} handleFilterByTags={handleFilterByTags} handleFilterByStatus={handleFilterByStatus} />
       </nav>
       <div className='ranking-panel__table'>
-        <Table countries={countries} />
+        <Table countries={countries} loading={loading} />
       </div>
     </section>
   )

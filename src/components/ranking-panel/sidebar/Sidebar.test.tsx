@@ -19,7 +19,7 @@ describe('Sidebar', () => {
   test('it should handleSelect', () => {
     const select = screen.getByTestId('sortingSelect');
     fireEvent.click(select);
-    const option = screen.getAllByTestId('sortingSelectOption');
+    const option = screen.getAllByTestId('sortingSelectOptionName');
     fireEvent.click(option[0]);
     expect(handleSortBy).toHaveBeenCalledTimes(1);
     expect(select).toHaveTextContent('Name');

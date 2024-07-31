@@ -2,11 +2,12 @@ import { Country } from '../../interfaces';
 import './Table.scss'
 
 type TableProps = {
+  loading: boolean;
   countries: Country[]
 }
 
 export const Table = (props: TableProps): React.ReactElement  => {
-  const { countries } = props;
+  const { countries, loading } = props;
 
   /**
    * Inserts commas into a number.
@@ -29,8 +30,9 @@ export const Table = (props: TableProps): React.ReactElement  => {
         </tr>
       </thead>
       <tbody>
-        {countries.length ? (countries || []).map((country: Country) => (
-          <tr key={country.id} className='countries-table__row'>
+        {loading && <tr> <td className='countries-table__cell' colSpan={5}>Loading...</td> </tr>}
+        {countries.length ? countries.map((country: Country) => (
+          <tr key={country.id} className='countries-table__row' data-testid='tableRow'>
             <td className='countries-table__cell'><img className='countries-table__img' src={country.flags.png} alt={country.name.common} /></td>
             <td className='countries-table__cell'>{country.name.common}</td>
             <td className='countries-table__cell' data-testid="populationCell">{insertCommas(country.population)}</td>
