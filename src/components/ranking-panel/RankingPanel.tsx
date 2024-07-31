@@ -1,10 +1,11 @@
+import { useCallback, useEffect, useState } from 'react'
+
 import { Header } from './header/Header'
 import { Sidebar } from './sidebar/Sidebar'
 import { Table } from './table/Table'
-import { useCallback, useEffect, useState } from 'react'
-import CountriesService from '../../services/countries-service'
 import { Country, CountryStatusState } from '../interfaces'
-
+import useFetchCountries from '../../hooks/useFetchCountries'
+import { debounce } from '../../utils/utils'
 import './RankingPanel.scss'
 
 
@@ -13,22 +14,24 @@ export const RankingPanel = (): React.ReactElement => {
   const [ countries, setCountries ] = useState<Country[]>([]);
   const [ query, setQuery ] = useState<string>('');
 
+  const { data, loading, error } = useFetchCountries({limit: 400, query});
+  
   useEffect(() => {
-    const instance = new CountriesService();
-    instance.getCountries({limit: 400, query}).then(data => {
-      const countriesData = data as Country[];
-      setAllCountries(countriesData);
-      setCountries(countriesData);
-    });
-  }, [query]);
+    if (error) {
+      console.error('Error fetching countries:', error);
+    }
+    if (!loading) {
+      setAllCountries(data);
+      setCountries(data);
+    }
+  }, [data, loading, error]);
 
   /**
    * Handles the query to filter the countries.
    * @param query - The query to filter the countries.
    */
-  const handleQuery = (query: string) => {
-    setQuery(query);
-  }
+  const handleQuery = debounce((query: string) => setQuery(query), 500);
+
 
   /**
    * Sorts the countries based on the specified key.
