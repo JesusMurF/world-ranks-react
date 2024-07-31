@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { Country } from './components/country-detail/Country'
+import { Country } from './components/country/Country'
 import { Hero } from './components/hero/Hero'
 import { RankingPanel } from './components/ranking-panel/RankingPanel'
 
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <RankingPanel />
   },
   {
-    path: '/country/:id',
+    path: '/country/:name',
     element: <Country />
   }
 ])
