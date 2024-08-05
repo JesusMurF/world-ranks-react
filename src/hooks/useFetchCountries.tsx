@@ -29,20 +29,24 @@ const useFetchCountries = ({limit = 250, query}: Query) => {
         let filteredData: Country[] = data;
     
         if (query) {
-          const byCountry = data.filter((country: Country) => country.name.common.toLowerCase().includes(query.toLowerCase()));
-          const byRegion = data.filter((country: Country) => country.region.toLowerCase().includes(query.toLowerCase()));
-          const bySubregion = data.filter((country: Country) => {
-            if (country.subregion) {
-              return country.subregion.toLowerCase().includes(query.toLowerCase());
-            }
-            return false;
+          const lowerCaseQuery = query.toLowerCase();
+          filteredData = data.filter((country: Country) => {
+            const { name, region, subregion } = country;
+            const lowerCaseName = name.common.toLowerCase();
+            const lowerCaseRegion = region.toLowerCase();
+            const lowerCaseSubregion = subregion ? subregion.toLowerCase() : "";
+
+            return (
+              lowerCaseName.includes(lowerCaseQuery) ||
+              lowerCaseRegion.includes(lowerCaseQuery) ||
+              lowerCaseSubregion.includes(lowerCaseQuery)
+            );
           });
-          filteredData = [...byCountry, ...byRegion, ...bySubregion];
+
+          filteredData = generateIds(filteredData).slice(0, limit);
         }
 
         filteredData = generateIds(filteredData).slice(0, limit);
-
-        console.log(filteredData);
 
         cache[key] = filteredData;
         
