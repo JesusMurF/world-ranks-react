@@ -46,6 +46,8 @@ export interface Country {
   unMember: boolean;
   capital: string[];
   languages: Record<string, string>;
+  borders: string[];
+  cca3: string;
 }
 
 /**

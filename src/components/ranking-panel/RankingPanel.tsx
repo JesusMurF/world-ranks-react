@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { Header } from './header/Header'
 import { Sidebar } from './sidebar/Sidebar'
 import { Table } from './table/Table'
 import { Country, CountryStatusState } from '../interfaces'
-import useFetchCountries from '../../hooks/useFetchCountries'
 import { debounce } from '../../utils/utils'
+import { useCountryFilter } from '../../hooks/useCountriesQuery'
+import { CountriesContext } from '../../contexts/countriesContext'
+
 import './RankingPanel.scss'
 
 
@@ -14,17 +16,18 @@ export const RankingPanel = (): React.ReactElement => {
   const [ countries, setCountries ] = useState<Country[]>([]);
   const [ query, setQuery ] = useState<string>('');
 
-  const { data, loading, error } = useFetchCountries({limit: 400, query});
+  const { countries: countriesContext, loading } = useContext(CountriesContext);
+  const filtered = useCountryFilter(query, allCountries);
+
+  useEffect(() => {
+    setCountries(countriesContext);
+    setAllCountries(countriesContext);
+  }, [countriesContext]);
+  
   
   useEffect(() => {
-    if (error) {
-      console.error('Error fetching countries:', error);
-    }
-    if (!loading) {
-      setAllCountries(data);
-      setCountries(data);
-    }
-  }, [data, loading, error]);
+    setCountries([...filtered]);
+  }, [filtered]);
 
   /**
    * Handles the query to filter the countries.
