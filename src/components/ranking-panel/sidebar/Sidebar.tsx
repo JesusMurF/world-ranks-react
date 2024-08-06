@@ -82,7 +82,7 @@ export const Sidebar = ({ handleSortBy, handleFilterByTags, handleFilterByStatus
             <div className={isOpen ? 'sorting-select__selected--open' : 'sorting-select__selected'} onClick={() => setIsOpen(!isOpen)} data-testid="sortingSelect">{selected || 'Select a region'}</div>
             <ul className={isOpen ? 'sorting-select__options--open' : 'sorting-select__options'}>
               {options.map(option => (
-                <li key={option.value} className='sorting-select__option' onClick={() => handleSelect(option.value)} data-testid="sortingSelectOption">{option.label}</li>
+                <li key={option.value} className='sorting-select__option' onClick={() => handleSelect(option.value)} data-testid={'sortingSelectOption' + option.label}>{option.label}</li>
               ))}
             </ul>
           </div>

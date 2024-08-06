@@ -6,7 +6,8 @@ import { Table } from "./Table";
 
 describe('Table', () => {
   beforeEach(() => {
-    render(<Table countries={countries} />);
+    const loading = false;
+    render(<Table countries={countries} loading={loading} />);
   });
 
   test('renders Table', () => {

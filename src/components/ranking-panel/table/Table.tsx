@@ -1,23 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { Country } from '../../interfaces';
+import { generateUniqueKey, insertCommas } from '../../../utils/utils';
+
 import './Table.scss'
 
 type TableProps = {
+  loading: boolean;
   countries: Country[]
 }
 
 export const Table = (props: TableProps): React.ReactElement  => {
-  const { countries } = props;
-  const navigate = useNavigate()
-
-  /**
-   * Inserts commas into a number.
-   * @param value - The number to insert commas into.
-   * @returns The number with commas.
-   */
-  const insertCommas = (value: number): string => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+  const { countries, loading } = props;
+  const navigate = useNavigate();
 
   return (
     <table className='countries-table'>
@@ -31,8 +25,9 @@ export const Table = (props: TableProps): React.ReactElement  => {
         </tr>
       </thead>
       <tbody>
+        {loading && <tr><td className='countries-table__cell' colSpan={5}>Loading...</td></tr>}
         {countries.length ? countries.map((country: Country) => (
-          <tr key={country.id} className='countries-table__row' onClick={() => navigate(`/country/${country.name.common.toLowerCase()}`, {state: country.name})}>
+          <tr key={generateUniqueKey(country.name.common)} className='countries-table__row' data-testid='tableRow' onClick={() => navigate(`/country/${country.name.common.toLowerCase()}`, {state: country.name})}>
             <td className='countries-table__cell'><img className='countries-table__img' src={country.flags.png} alt={country.name.common} /></td>
             <td className='countries-table__cell'>{country.name.common}</td>
             <td className='countries-table__cell' data-testid="populationCell">{insertCommas(country.population)}</td>

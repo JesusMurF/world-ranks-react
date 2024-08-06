@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { Header } from './header/Header'
 import { Sidebar } from './sidebar/Sidebar'
 import { Table } from './table/Table'
 import { Country, CountryStatusState } from '../interfaces'
-import useFetchCountries from '../../hooks/useFetchCountries'
 import { debounce } from '../../utils/utils'
+import { useCountryFilter } from '../../hooks/useCountriesQuery'
+import { CountriesContext } from '../../contexts/countriesContext'
+
 import './RankingPanel.scss'
 
 
@@ -14,17 +16,18 @@ export const RankingPanel = (): React.ReactElement => {
   const [ countries, setCountries ] = useState<Country[]>([]);
   const [ query, setQuery ] = useState<string>('');
 
-  const { data, loading, error } = useFetchCountries({limit: 400, query});
+  const { countries: countriesContext, loading } = useContext(CountriesContext);
+  const filtered = useCountryFilter(query, allCountries);
+
+  useEffect(() => {
+    setCountries(countriesContext);
+    setAllCountries(countriesContext);
+  }, [countriesContext]);
+  
   
   useEffect(() => {
-    if (error) {
-      console.error('Error fetching countries:', error);
-    }
-    if (!loading) {
-      setAllCountries(data);
-      setCountries(data);
-    }
-  }, [data, loading, error]);
+    setCountries([...filtered]);
+  }, [filtered]);
 
   /**
    * Handles the query to filter the countries.
@@ -94,12 +97,12 @@ export const RankingPanel = (): React.ReactElement => {
       <header className='ranking-panel__header'>
         <Header handleQuery={handleQuery} countries={countries} />
       </header>
-      <nav className='ranking-panel__sidebar'>
+      <aside className='ranking-panel__sidebar'>
         <Sidebar handleSortBy={handleSortBy} handleFilterByTags={handleFilterByTags} handleFilterByStatus={handleFilterByStatus} />
-      </nav>
-      <div className='ranking-panel__table'>
-        <Table countries={countries} />
-      </div>
+      </aside>
+      <main className='ranking-panel__table'>
+        <Table countries={countries} loading={loading} />
+      </main>
     </section>
   )
 }

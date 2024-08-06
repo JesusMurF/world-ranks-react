@@ -1,13 +1,29 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Country as ICountry } from '../interfaces';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { Country as ICountry, initialCountryState } from '../interfaces';
+import { CountriesContext } from '../../contexts/countriesContext';
+import { generateUniqueKey, insertCommas } from '../../utils/utils';
 
 import './Country.scss';
 
 export const Country = () => {
-  const [country, setCountry] = useState<ICountry>();
+  const [ country, setCountry ] = useState<ICountry>(initialCountryState);
   const { name } = useParams();
+  const { countries } = useContext(CountriesContext);
+  const [ neighboursState, setNeighbours] = useState<ICountry[] | undefined>([]);
 
+  /**
+   * Retrieves the neighbouring countries of the selected country.
+   */
+  const neighbours = useMemo(() => {
+    return country.borders.map((border) => {
+      return countries.find((country) => country.cca3 === border);
+    });
+  }, [countries, country.borders]);
+
+  /**
+   * Fetches the country data based on the selected country name.
+   */
   useEffect(() => {
     async function fetchData() {
       const country = await fetch(`https://restcountries.com/v3.1/name/${name}`);
@@ -16,7 +32,11 @@ export const Country = () => {
       setCountry(countryInfo);
     }
     fetchData();
-  }, [name]);
+  }, [name, countries]);
+
+  useEffect(() => {
+    setNeighbours(neighbours.filter((neighbour) => neighbour !== undefined));
+  }, [country, countries, neighbours]);
 
   return (
     <div className="country">
@@ -31,11 +51,11 @@ export const Country = () => {
         <div className='dimensions'>
             <div className='dimensions__label'>
               <span>Population</span>
-              <span>{country?.population}</span>
+              <span>{country && insertCommas(country.population)}</span>
             </div>
             <div className='dimensions__label'>
               <span>Area</span>
-              <span>{country?.area} km<sup>2</sup></span>
+              <span>{country && insertCommas(country.area)} km<sup>2</sup></span>
             </div>
         </div>
         <div className='data'>
@@ -63,18 +83,12 @@ export const Country = () => {
         <div className='neighbours'>
           <h2>Neighbouring Countries</h2>
           <ul className='neighbours__list'>
-            <li className='neighbours__list-item'>
-              <img className='neighbours__flag' src='https://flagcdn.com/w40/pk.png' alt='' />
-              <span className='neighbours__name'>Pakistan</span>
-            </li>
-            <li className='neighbours__list-item'>
-              <img className='neighbours__flag' src='https://flagcdn.com/w40/bd.png' alt='' />
-              <span className='neighbours__name'>Bangladesh</span>
-            </li>
-            <li className='neighbours__list-item'>
-              <img className='neighbours__flag' src='https://flagcdn.com/w40/np.png' alt='' />
-              <span className='neighbours__name'>Nepal</span>
-            </li>
+            {neighboursState && neighboursState.map((neighbour) => (
+              <li key={generateUniqueKey(neighbour.name.common)} className='neighbours__list-item'>
+                <img className='neighbours__flag' src={neighbour?.flags?.png} alt={neighbour?.flags?.alt} />
+                <span className='neighbours__name'>{neighbour.name.common}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
