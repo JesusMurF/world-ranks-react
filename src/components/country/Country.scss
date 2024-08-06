@@ -92,6 +92,7 @@
     display: flex;
     margin: 0 auto;
     padding: .8rem;
+    flex-wrap: wrap;
   }
 
   &__list-item {
@@ -110,5 +111,11 @@
     font-size: .8rem;
     font-weight: 400;
     padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .country {
+    min-width: 90%;
   }
 }

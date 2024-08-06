@@ -15,3 +15,9 @@
   }
 }
 
+@media screen and (max-width: 640px) {
+  .ranking-panel {
+    @include panel("header header header" "sidebar sidebar sidebar" "table table table", 1fr 1fr 1fr, 0);
+  }
+}
+
