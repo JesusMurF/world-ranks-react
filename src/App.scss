@@ -11,3 +11,12 @@ $padding: 2rem;
   padding-left: $padding;
   padding-bottom: $padding;
 }
+
+@media screen and (max-width: 640px) {
+  .container {
+    padding-right: 0;
+    padding-left: 0;
+    display: block;
+    width: 100%;
+  }
+}
