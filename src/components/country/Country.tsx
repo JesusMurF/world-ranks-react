@@ -16,7 +16,7 @@ export const Country = () => {
    * Retrieves the neighbouring countries of the selected country.
    */
   const neighbours = useMemo(() => {
-    return country.borders.map((border) => {
+    return country.borders?.map((border) => {
       return countries.find((country) => country.cca3 === border);
     });
   }, [countries, country.borders]);
@@ -35,8 +35,8 @@ export const Country = () => {
   }, [name, countries]);
 
   useEffect(() => {
-    setNeighbours(neighbours.filter((neighbour) => neighbour !== undefined));
-  }, [country, countries, neighbours]);
+    setNeighbours(neighbours?.filter((neighbour) => neighbour !== undefined));
+  }, [country, countries, neighbours]); 
 
   return (
     <div className="country">
@@ -80,7 +80,7 @@ export const Country = () => {
             </tbody>
           </table>
         </div>
-        <div className='neighbours'>
+        {neighbours ? <div className='neighbours'>
           <h2>Neighbouring Countries</h2>
           <ul className='neighbours__list'>
             {neighboursState && neighboursState.map((neighbour) => (
@@ -90,7 +90,7 @@ export const Country = () => {
               </li>
             ))}
           </ul>
-        </div>
+        </div> : null}
       </div>
     </div>
   )
