@@ -97,12 +97,12 @@ export const RankingPanel = (): React.ReactElement => {
       <header className='ranking-panel__header'>
         <Header handleQuery={handleQuery} countries={countries} />
       </header>
-      <nav className='ranking-panel__sidebar'>
+      <aside className='ranking-panel__sidebar'>
         <Sidebar handleSortBy={handleSortBy} handleFilterByTags={handleFilterByTags} handleFilterByStatus={handleFilterByStatus} />
-      </nav>
-      <div className='ranking-panel__table'>
+      </aside>
+      <main className='ranking-panel__table'>
         <Table countries={countries} loading={loading} />
-      </div>
+      </main>
     </section>
   )
 }

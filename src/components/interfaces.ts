@@ -75,3 +75,35 @@ export interface NativeName {
   official: string;
   common: string;
 }
+
+/**
+ * Represents the initial state of a country.
+ * @type {Country}
+ * */
+export const initialCountryState: Country = {
+  id: 0,
+  flags: {
+    png: '',
+    alt: ''
+  },
+  name: {
+    common: '',
+    official: '',
+    nativeName: {
+      "eng": {
+        official: '',
+        common: ''
+      }
+    }
+  },
+  region: '',
+  subregion: '',
+  area: 0,
+  population: 0,
+  independent: true,
+  unMember: false,
+  capital: [''],
+  languages: {},
+  borders: [],
+  cca3: ''
+};

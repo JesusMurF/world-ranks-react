@@ -1,23 +1,29 @@
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { Country as ICountry } from '../interfaces';
+import { Country as ICountry, initialCountryState } from '../interfaces';
 import { CountriesContext } from '../../contexts/countriesContext';
 import { generateUniqueKey, insertCommas } from '../../utils/utils';
 
 import './Country.scss';
 
 export const Country = () => {
-  const [country, setCountry] = useState<ICountry>();
+  const [ country, setCountry ] = useState<ICountry>(initialCountryState);
   const { name } = useParams();
   const { countries } = useContext(CountriesContext);
   const [ neighboursState, setNeighbours] = useState<ICountry[] | undefined>([]);
 
+  /**
+   * Retrieves the neighbouring countries of the selected country.
+   */
   const neighbours = useMemo(() => {
-    return country?.borders?.map((border) => {
+    return country.borders.map((border) => {
       return countries.find((country) => country.cca3 === border);
-    }).filter((neighbour) => neighbour !== undefined);
-  }, [countries, country?.borders]);
+    });
+  }, [countries, country.borders]);
 
+  /**
+   * Fetches the country data based on the selected country name.
+   */
   useEffect(() => {
     async function fetchData() {
       const country = await fetch(`https://restcountries.com/v3.1/name/${name}`);
@@ -29,9 +35,7 @@ export const Country = () => {
   }, [name, countries]);
 
   useEffect(() => {
-    if (country) {
-      setNeighbours(neighbours);
-    }
+    setNeighbours(neighbours.filter((neighbour) => neighbour !== undefined));
   }, [country, countries, neighbours]);
 
   return (
@@ -81,7 +85,7 @@ export const Country = () => {
           <ul className='neighbours__list'>
             {neighboursState && neighboursState.map((neighbour) => (
               <li key={generateUniqueKey(neighbour.name.common)} className='neighbours__list-item'>
-                <img className='neighbours__flag' src={neighbour.flags.png} alt={neighbour.flags.alt} />
+                <img className='neighbours__flag' src={neighbour?.flags?.png} alt={neighbour?.flags?.alt} />
                 <span className='neighbours__name'>{neighbour.name.common}</span>
               </li>
             ))}
