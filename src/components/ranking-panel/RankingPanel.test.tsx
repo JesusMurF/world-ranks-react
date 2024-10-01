@@ -1,4 +1,4 @@
-import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+import { render, waitFor, screen, act } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import { RankingPanel } from "./RankingPanel";
 import { countries } from "../../../__mocks__/countries.mock";
